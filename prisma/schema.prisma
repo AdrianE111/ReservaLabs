@@ -13,7 +13,7 @@ model Sala {
   nombre    String
   edificio  String
   capacidad Int
-  reservas  Reserva[]      // una sala -> muchas reservas
+  reservas  Reserva[]
 }
 
 model Reserva {
@@ -22,6 +22,6 @@ model Reserva {
   motivo      String
   inicio      DateTime
   fin         DateTime
+  salaId      Int
   sala        Sala     @relation(fields: [salaId], references: [id], onDelete: Cascade)
-  salaId      Int            // la llave foránea
 }
