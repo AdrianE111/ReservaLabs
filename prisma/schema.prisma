@@ -9,11 +9,12 @@ datasource db {
 }
 
 model Sala {
-  id        Int       @id @default(autoincrement())
-  nombre    String
-  edificio  String
-  capacidad Int
-  reservas  Reserva[]
+  id         Int       @id @default(autoincrement())
+  nombre     String
+  edificio   String
+  capacidad  Int
+  imagenUrl  String?
+  reservas   Reserva[]
 }
 
 model Reserva {
