@@ -8,7 +8,10 @@
     "dev": "tsx watch src/server.ts",
     "migrate": "prisma migrate dev",
     "seed": "tsx prisma/seed.ts",
-    "studio": "prisma studio"
+    "studio": "prisma studio",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run typecheck && npm run build"
   },
   "repository": {
     "type": "git",
