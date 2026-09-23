@@ -3,42 +3,48 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
+  const storageUrl = process.env.SUPABASE_STORAGE_URL;
+
+  if (!storageUrl) {
+    throw new Error('Falta configurar SUPABASE_STORAGE_URL en el archivo .env');
+  }
+
   const salones = [
     {
       nombre: 'Lab A · Redes',
       edificio: 'M',
       capacidad: 30,
-      imagenUrl: '/images/redes.png',
+      imagenUrl: `${storageUrl}/redes.png`,
     },
     {
       nombre: 'Lab B · Software',
       edificio: 'M',
       capacidad: 25,
-      imagenUrl: '/images/programacion.png',
+      imagenUrl: `${storageUrl}/programacion.png`,
     },
     {
       nombre: 'Lab C · Hardware',
       edificio: 'O',
       capacidad: 20,
-      imagenUrl: '/images/electronica.png',
+      imagenUrl: `${storageUrl}/electronica.png`,
     },
     {
       nombre: 'Lab D · Inteligencia Artificial',
       edificio: 'T',
       capacidad: 35,
-      imagenUrl: '/images/ia.png',
+      imagenUrl: `${storageUrl}/ia.png`,
     },
     {
       nombre: 'Lab E · Ciberseguridad',
       edificio: 'T',
       capacidad: 25,
-      imagenUrl: '/images/ciberseguridad.png',
+      imagenUrl: `${storageUrl}/ciberseguridad.png`,
     },
     {
       nombre: 'Lab F · Multimedia y Diseño',
       edificio: 'O',
       capacidad: 40,
-      imagenUrl: '/images/multimedia.png',
+      imagenUrl: `${storageUrl}/multimedia.png`,
     },
   ];
 
@@ -48,20 +54,22 @@ async function main() {
     });
 
     if (existe) {
-      // Si la sala ya existe, actualiza su imagenUrl
       await prisma.sala.update({
         where: { id: existe.id },
-        data: { imagenUrl: salon.imagenUrl },
+        data: {
+          edificio: salon.edificio,
+          capacidad: salon.capacidad,
+          imagenUrl: salon.imagenUrl,
+        },
       });
     } else {
-      // Si la sala es nueva, la crea con todos sus campos
       await prisma.sala.create({
         data: salon,
       });
     }
   }
 
-  console.log('seed listo con imagenes dinamicas asociadas');
+  console.log('seed listo con imagenes desde Supabase Storage');
 }
 
 main()
